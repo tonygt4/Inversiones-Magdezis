@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="LoginMagdezis" default="run" basedir=".">
+
+    <property file="build.properties"/>
+
+    <property name="src.dir"     value="src/main/java"/>
+    <property name="res.dir"     value="src/main/resources"/>
+    <property name="lib.dir"     value="lib"/>
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="main.class"  value="com.magdezis.Main"/>
+
+    <path id="project.classpath">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+        <fileset dir="${javafx.lib.dir}" includes="*.jar"/>
+    </path>
+
+    <target name="clean" description="Borra la carpeta build">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" description="Compila y copia recursos">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"
+               encoding="UTF-8" release="17" debug="true">
+            <classpath refid="project.classpath"/>
+        </javac>
+        <copy todir="${classes.dir}">
+            <fileset dir="${res.dir}"/>
+        </copy>
+    </target>
+
+    <target name="run" depends="compile" description="Compila y ejecuta la aplicación">
+        <java classname="${main.class}" fork="true" failonerror="true">
+            <classpath>
+                <path refid="project.classpath"/>
+                <pathelement location="${classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+</project>
